@@ -51,6 +51,7 @@ kubectl get pods -n database-namespace -o wide
 kubectl get events -n webapp-namespace
 kubectl describe node ip-10-1-63-58.ap-south-1.compute.internal
 kubectl describe pod mysql-deployment-5b64589fb7-4cp7b -n database-namespace
+kubectl describe pod phpapp-deployment-78445cd9c-sfdsf -n webapp-namespace
 
 kubectl logs -f mysql-deployment-5b64589fb7-ncdss -n database-namespace
 kubectl exec -it mysql-deployment-5b64589fb7-ncdss -n database-namespace -- /bin/bash

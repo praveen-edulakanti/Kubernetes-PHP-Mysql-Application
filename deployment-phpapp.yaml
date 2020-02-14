@@ -21,20 +21,20 @@ spec:
       containers:
       - name: app-container
         image: praveenedulakanti/phpapp:3.0
-        #readinessProbe:
-        #  httpGet:
-        #    path: /health
-        #    port: 80
-        #  initialDelaySeconds: 30
-        #  timeoutSeconds: 5
-        #  periodSeconds: 15
-        #livenessProbe:
-        #  httpGet:
-        #    path: /health
-        #    port: 80
-        #  initialDelaySeconds: 30
-        #  timeoutSeconds: 5
-        #  periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /index.html
+            port: 80
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          periodSeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /index.html
+            port: 80
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          periodSeconds: 15
         resources: 
           limits:
             memory: 200Mi
