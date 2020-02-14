@@ -14,6 +14,12 @@ kubectl apply -f secret.yml
 kubectl get secret -n database-namespace
 kubectl describe secret mysql-secrets -n database-namespace
 
+Generated env variable to access from application
+
+kubectl apply -f mysql-secret-env.yml
+kubectl get secret -n webapp-namespace
+kubectl describe secret mysql-secret-env -n webapp-namespace
+
 *******************************************************************
 # 3. Create Persistent Storage and display
 

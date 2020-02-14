@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: app-container
-        image: praveenedulakanti/phpapp:3.0
+        image: praveenedulakanti/phpapp:env_assign
         readinessProbe:
           httpGet:
             path: /index.html
@@ -45,6 +45,18 @@ spec:
         env:
           - name: "PORT"
             value: "80"
+          - name: "MYSQL_CONNECTION"
+            value: "mysql-service.database-namespace.svc.cluster.local"  
+          - name: SECRET_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secret-env
+                key: username
+          - name: SECRET_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secret-env
+                key: password  
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         imagePullPolicy: Always
