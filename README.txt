@@ -93,8 +93,25 @@ kubectl get po -o wide
 kubectl scale deployment phpapp-deployment -n webapp-namespace --replicas=1
 kubectl get deploy
 kubectl get po -o wide
-   
+
 *******************************************************************
+ # 9. Rollout Concept
+	Check the rollout status
+kubectl rollout status deploy phpapp-deployment -n webapp-namespace
+
+  Change Image url to new Release number in deployment-phpapp.yaml
+kubectl apply -f deployment-phpapp.yaml
+
+ Read the deployment history(current and previous)
+kubectl rollout history deploy phpapp-deployment -n webapp-namespace
+  
+  Rolling Back to a Previous Revision
+kubectl rollout undo deploy phpapp-deployment -n webapp-namespace
+     or 
+kubectl rollout undo deploy phpapp-deployment –-to—revision=1 -n webapp-namespace (previous revision no..)
+
+*******************************************************************
+   Misc Commands for debug:
 kubectl get all -n kube-system -o wide
 kubectl exec -it mysql-deployment-5b68bb45bc-lv2np -n database-namespace /bin/bash
 kubectl get po -n database-namespace -o wide
