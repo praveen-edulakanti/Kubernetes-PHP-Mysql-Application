@@ -16,13 +16,14 @@ kubectl describe secret mysql-secrets -n database-namespace
 
 Generated env variable to access from application
 
-kubectl apply -f mysql-secret-env.yml
+kubectl apply -f mysql-secret-env.yaml
 kubectl get secret -n webapp-namespace
 kubectl describe secret mysql-secret-env -n webapp-namespace
 
 *******************************************************************
-# 3. Create Persistent Storage and display
+# 3. Create StorageClass, Persistent Storage and display
 
+kubectl apply -f storage.yaml
 kubectl apply -f persistentVolumeClaim.yml
 kubectl get pvc -n database-namespace
 
@@ -64,17 +65,55 @@ kubectl exec -it mysql-deployment-5b64589fb7-ncdss -n database-namespace -- /bin
 kubectl exec -it phpapp-8587d8756d-j2jhz -n webapp-namespace -- /bin/bash
 
 *******************************************************************
-# 6. Testing: Scale UP
+# 6. Setup Elastic Search, fluentd, kibana
+
+kubectl apply -f fluentd-config.yaml
+kubectl apply -f elastic-stack.yaml 
+
+kubectl logs -f statefulset.apps/elasticsearch-logging -n kube-system
+kubectl get all -n kube-system
+kubectl get all -n kube-system -o wide
+kubectl get po -n kube-system -o wide
+kubectl get po -n kube-system
+kubectl get svc -n kube-system
+kubectl describe svc kibana-logging -n kube-system
+
+kibana load balancer url connects with port number, need to check in Load Balancer
+
+*******************************************************************
+# 7. Testing: Scale UP
 
 kubectl scale deployment phpapp-deployment -n webapp-namespace --replicas=3
 kubectl get deploy
 kubectl get po -o wide
 
 *******************************************************************
-# 7. Testing: Scale DOWN
+# 8. Testing: Scale DOWN
 
 kubectl scale deployment phpapp-deployment -n webapp-namespace --replicas=1
 kubectl get deploy
 kubectl get po -o wide
-   
+
 *******************************************************************
+ # 9. Rollout Concept
+	Check the rollout status
+kubectl rollout status deploy phpapp-deployment -n webapp-namespace
+
+  Change Image url to new Release number in deployment-phpapp.yaml
+kubectl apply -f deployment-phpapp.yaml
+
+ Read the deployment history(current and previous)
+kubectl rollout history deploy phpapp-deployment -n webapp-namespace
+  
+  Rolling Back to a Previous Revision
+kubectl rollout undo deploy phpapp-deployment -n webapp-namespace
+     or 
+kubectl rollout undo deploy phpapp-deployment –-to—revision=1 -n webapp-namespace (previous revision no..)
+
+*******************************************************************
+   Misc Commands for debug:
+kubectl get all -n kube-system -o wide
+kubectl exec -it mysql-deployment-5b68bb45bc-lv2np -n database-namespace /bin/bash
+kubectl get po -n database-namespace -o wide
+
+
