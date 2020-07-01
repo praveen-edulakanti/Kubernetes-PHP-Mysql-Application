@@ -29,6 +29,21 @@ pipeline {
              sh 'docker push praveenedulakanti/phpapp-devops'
 	        }
 		}
+		stage("Deploy To Kubernetes Cluster"){
+		   steps { 
+               sh '''kubectl apply -f namespace-phpapp.yml
+                     kubectl apply -f namespace-mysql.yml
+                     kubectl apply -f secret.yml
+                     kubectl apply -f mysql-secret-env.yaml
+                     kubectl apply -f storage.yaml
+                     kubectl apply -f persistentVolumeClaim.yml
+                     kubectl apply -f deployment-phpapp.yaml
+                     kubectl apply -f deployment-mysql.yaml
+                     kubectl apply -f service-phpapp.yaml
+                     kubectl apply -f service-mysql.yaml
+                  '''
+		   }
+        } 
     }    
 }
 
