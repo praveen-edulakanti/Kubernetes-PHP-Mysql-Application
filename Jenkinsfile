@@ -11,6 +11,11 @@ pipeline {
                 cleanWs()
             }
         }
+		stage('k8s Code Pull'){
+           steps {
+               git url: 'https://github.com/praveen-edulakanti/Kubernetes-PHP-Mysql-Application.git'
+           }
+        }
         stage('Build Docker Image') {
            steps {
 				sh 'docker build -t praveenedulakanti/phpapp-devops:${DOCKER_TAG} .'
