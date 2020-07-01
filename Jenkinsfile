@@ -8,6 +8,7 @@ pipeline {
             steps {
                 sh 'echo ${WORKSPACE}'
                 sh 'echo ${COMMIT_ID}'
+                sh 'echo ${BUILD_NUMBER}'
                 cleanWs()
             }
         }
@@ -16,6 +17,11 @@ pipeline {
                 git url: 'https://github.com/praveen-edulakanti/Kubernetes-PHP-Mysql-Application.git'
             }
         }
+       /* stage('Remove All Old Docker Images') {
+            steps {
+			    sh 'docker rmi $(docker images -q) --force'
+			}
+		} */
         stage('Build Docker Image') {
             steps {
 			    sh 'docker build -t praveenedulakanti/phpapp-devops:$BUILD_NUMBER .'
@@ -46,6 +52,7 @@ pipeline {
                       kubectl apply -f deployment-mysql.yaml
                       kubectl apply -f service-phpapp.yaml
                       kubectl apply -f service-mysql.yaml
+					  kubectl get service -n webapp-namespace
                    '''
 		   }
         } 
