@@ -56,6 +56,14 @@ kubectl get pods -n database-namespace
 kubectl get pods -n database-namespace -o wide
 
 kubectl get events -n webapp-namespace
+
+MYSQL Connecting for database to create and table
+export MYSQLPOD=$(kubectl get pods -n database-namespace -l app=mysql --no-headers | awk '{print $1}')
+kubectl logs -n database-namespace $MYSQLPOD
+kubectl exec -n database-namespace -ti $MYSQLPOD -- mysql --user=root --password=Pr@123veen
+run mysqldump.sql file in mysql terminal
+
+
 kubectl describe node ip-10-1-63-58.ap-south-1.compute.internal
 kubectl describe pod mysql-deployment-5b64589fb7-4cp7b -n database-namespace
 kubectl describe pod phpapp-deployment-78445cd9c-sfdsf -n webapp-namespace
