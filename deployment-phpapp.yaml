@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: app-container
-        image: praveenedulakanti/phpapp:buildNumber
+        image: praveenedulakanti/phpapp-devops:buildNumber
         #image: praveenedulakanti/phpapp:env_assign
         #image: 863XXXX115.dkr.ecr.ap-south-1.amazonaws.com/webapp/repo:latest
         readinessProbe:
