@@ -122,6 +122,10 @@ kubectl rollout undo deploy phpapp-deployment -n webapp-namespace
 kubectl rollout undo deploy phpapp-deployment –-to—revision=1 -n webapp-namespace (previous revision no..)
 
 *******************************************************************
+ # 10. Horizontal Pod Autoscaler
+ kubectl autoscale deployment phpapp-deployment --cpu-percent=50 --min=3 --max=10
+
+*******************************************************************
    Misc Commands for debug:
 kubectl get all -n kube-system -o wide
 kubectl exec -it mysql-deployment-5b68bb45bc-lv2np -n database-namespace /bin/bash
