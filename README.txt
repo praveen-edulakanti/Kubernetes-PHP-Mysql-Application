@@ -131,4 +131,42 @@ kubectl get all -n kube-system -o wide
 kubectl exec -it mysql-deployment-5b68bb45bc-lv2np -n database-namespace /bin/bash
 kubectl get po -n database-namespace -o wide
 
+*******************************************************************
+# 11. Helm Installation:   https://github.com/helm/helm/releases
 
+In the installation section copy the link of Linux amd64
+wget https://get.helm.sh/helm-v3.3.0-rc.2-linux-amd64.tar.gz
+
+tar zxvf  helm-v3.3.0-rc.1-linux-amd64.tar.gz
+sudo mv linux-amd64/helm /usr/local/bin/
+rm  helm-v3.3.0-rc.2-linux-amd64.tar.gz
+rm -rf ./linux-amd64/
+# helm  -> this will give helm help
+
+helm version
+version.BuildInfo{Version:"v3.3.0-rc.2", GitCommit:"8a4aeec08d67a7b84472007529e8097ec3742105", GitTreeState:"dirty", GoVersion:"go1.14.6"}
+
+helm3 has not default repository.
+helm repo add stable https://kubernetes-charts.storage.googleapis.com
+
+Create Namespace:
+kubectl create ns helmnamespace
+
+Install prometheus-operator:
+helm install monitoring stable/prometheus-operator --namespace helmnamespace
+
+kubectl get svc  --namespace helmnamespace
+
+We can see that Prometheus and Grafana are already being exposed, but only internally. All we have to do is to modify ServiceTypes from ClusterIP to LoadBalancer.
+
+Change Prometheus to LoadBalancer URL:
+kubectl edit service/monitoring-prometheus-oper-prometheus --namespace helmnamespace
+Change "type:" from "ClusterIP" to "LoadBalancer" and Save.
+
+Select the services and verify the load balancer URL of prometheus.
+kubectl get svc  --namespace helmnamespace
+
+Note: Remove "nodePort" after reverted back to "ClusterIP" again.
+
+Change Graphana to LoadBalancer URL:
+kubectl edit service/monitoring-grafana --namespace helmnamespace
