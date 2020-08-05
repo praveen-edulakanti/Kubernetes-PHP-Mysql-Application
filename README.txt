@@ -168,5 +168,5 @@ kubectl get svc  --namespace helmnamespace
 
 Note: Remove "nodePort" after reverted back to "ClusterIP" again.
 
-Change Graphana to LoadBalancer URL:
+Change Grafana to LoadBalancer URL:
 kubectl edit service/monitoring-grafana --namespace helmnamespace
