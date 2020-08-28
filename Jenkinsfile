@@ -20,11 +20,11 @@ pipeline {
                 git url: 'https://github.com/praveen-edulakanti/Kubernetes-PHP-Mysql-Application.git'
             }
         }
-        stage('Remove All Old Docker Images') {
+        /*stage('Remove All Old Docker Images') {
             steps {
 			    sh 'docker rmi $(docker images -q) --force'
 			}
-		}
+		}*/
         stage('Build Docker Image') {
             steps {
 		   sh 'docker build -t $IMAGE_URL_WITH_TAG .'
