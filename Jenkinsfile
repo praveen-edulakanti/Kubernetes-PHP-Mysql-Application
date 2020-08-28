@@ -61,7 +61,7 @@ pipeline {
 			 echo "****** Load Balancer URL******"
 			 kubectl get service -n webapp-namespace
 			 echo "MYSQL DATABASE CREATE if not exist"
-			 export MYSQLPOD=$(kubectl get pods -n database-namespace -l app=mysql --no-headers | awk '{print $1}')
+			 export MYSQLPOD=$(kubectl wait --timeout=60s --for condition=ready pods -n database-namespace -l app=mysql | awk '{print $1}')
 			 kubectl exec -n database-namespace -ti $MYSQLPOD -- mysql --user=root --password=Pr@123veen < mysqldump.sql
                       '''
 		   }
