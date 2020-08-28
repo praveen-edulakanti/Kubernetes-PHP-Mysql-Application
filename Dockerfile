@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+LABEL "User-Module" "PHP-Apache-Application"
+
 # Maintainer 
 MAINTAINER "Praveen Edulakanti" 
 
@@ -24,6 +26,10 @@ RUN apt-get install -y php7.2 \
     libapache2-mod-php7.2 \
     php7.2 php7.2-curl \
     php7.2-mbstring
+
+#Curl install
+RUN apt-get update && apt-get install -y \
+curl
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
